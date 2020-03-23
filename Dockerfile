@@ -39,32 +39,36 @@ RUN mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
     echo "install npm packages" && \
     npm install -g n && \
     n lts && \
-    yarn global add wait-port && \
-    echo "===============================================================" && \
+    yarn global add wait-port
+
+RUN echo "===============================================================" && \
     echo "install minio" && \
     mkdir -p /opt/minio && \
     wget https://dl.minio.io/server/minio/release/linux-amd64/minio -P /opt/minio && \
-    chmod +x /opt/minio/minio && \
-    echo "===============================================================" && \
+    chmod +x /opt/minio/minio 
+    
+RUN echo "===============================================================" && \
     echo "install kafka" && \
     wget http://apache.mirror.anlx.net/kafka/2.2.0/kafka_2.12-2.2.0.tgz -P /tmp && \
     tar -xzf /tmp/kafka_2.12-2.2.0.tgz && \
-    ln -s kafka_* kafka && \
-    echo "===============================================================" && \
+    ln -s kafka_* kafka
+    
+RUN echo "===============================================================" && \
     echo "install mongodb" && \
     wget https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-4.0.5.tgz -P /tmp && \
     tar -xzf /tmp/mongodb-linux-x86_64-4.0.5.tgz && \
-    ln -s "mongodb-linux-x86_64-4.0.5" mongodb && \
-    echo "===============================================================" && \
+    ln -s "mongodb-linux-x86_64-4.0.5" mongodb
+    
+RUN echo "===============================================================" && \
     echo "install wiremock" && \
-    wget http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.20.0/wiremock-standalone-2.20.0.jar -P /opt && \
+    wget https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.26.3/wiremock-standalone-2.26.3.jar -P /opt && \
     ln -s wiremock-* wiremock.jar && \
     chmod +x /opt/wiremock.jar
 
 RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
     apt-get -y update && \
-    apt-get -y install google-chrome-stable && \
+    apt-get -y install unzip google-chrome-stable && \
     wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/bin/chromedriver && \
@@ -78,5 +82,11 @@ RUN /etc/init.d/postgresql start && \
     exit && \
     /etc/init.d/postgresql stop
 USER root
+
+RUN echo "===============================================================" && \
+    echo "install SDKMAN and packages" && \
+    apt-get -y install zip && \
+    curl -s "https://get.sdkman.io" | bash && \
+    /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk version && sdk install maven && sdk install gradle && sdk install sbt && sdk install scala"
 
 RUN rm -rf /tmp/*.tgz 

@@ -14,3 +14,7 @@ Base builder image for java 11
 * Mongodb
 * Wiremock
 * Chromedriver (for selenium headless)
+* Maven
+* Gradle
+* Sbt
+* Scala
