@@ -9,8 +9,6 @@ RUN mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
     echo "install OpenJDK XX" && \
     wget https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_linux-x64_bin.tar.gz -P /tmp && \
     tar -xvzf /tmp/openjdk-*.tar.gz -C /usr/lib && mv /usr/lib/jdk-* /usr/lib/jdk && \
-    echo 'export PATH="$PATH:/usr/lib/jdk/bin"' >> ~/.bashrc && \
-    echo 'export JAVA_HOME="/usr/lib/jdk"' >> ~/.bashrc && \
     export PATH="$PATH:/usr/lib/jdk/bin" && \
     export JAVA_HOME="/usr/lib/jdk" && \
     java -version && \
@@ -84,9 +82,19 @@ RUN /etc/init.d/postgresql start && \
 USER root
 
 RUN echo "===============================================================" && \
-    echo "install SDKMAN and packages" && \
-    apt-get -y install zip && \
-    curl -s "https://get.sdkman.io" | bash && \
-    /bin/bash -c "source /root/.sdkman/bin/sdkman-init.sh && sdk version && sdk install maven && sdk install gradle && sdk install sbt && sdk install scala"
+    echo "install Maven" && \
+    apt install -y maven && \
+    mvn -v
 
-RUN rm -rf /tmp/*.tgz 
+RUN echo "===============================================================" && \
+    echo "install Gradle" && \
+    wget https://services.gradle.org/distributions/gradle-5.6.4-bin.zip -P /tmp && \
+    unzip -d /opt /tmp/gradle-*.zip && \
+    mv /opt/gradle-* /opt/gradle && \
+    export PATH="$PATH:/opt/gradle/bin" && \
+    gradle -v
+
+ENV PATH="${PATH}:/usr/lib/jdk/bin:/opt/gradle/bin"
+ENV JAVA_HOME="/usr/lib/jdk"
+
+RUN rm -rf /tmp/*
