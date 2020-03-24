@@ -67,7 +67,7 @@ RUN curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-ke
     echo "deb [arch=amd64]  http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list && \
     apt-get -y update && \
     apt-get -y install unzip google-chrome-stable && \
-    wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip && \
+    wget https://chromedriver.storage.googleapis.com/79.0.3945.36/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/bin/chromedriver && \
     chown root:root /usr/bin/chromedriver && \
