@@ -7,8 +7,8 @@ RUN mkdir -p /usr/share/man/man1 /usr/share/man/man7 && \
     apt-get update && apt-get install -y wget curl jq git docker tar apt-transport-https ca-certificates gnupg2 software-properties-common build-essential netcat vim && \
     echo "===============================================================" && \
     echo "install OpenJDK XX" && \
-    wget https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_linux-x64_bin.tar.gz -P /tmp && \
-    tar -xvzf /tmp/openjdk-*.tar.gz -C /usr/lib && mv /usr/lib/jdk-* /usr/lib/jdk && \
+    wget https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.6%2B10/OpenJDK11U-jdk_x64_linux_hotspot_11.0.6_10.tar.gz -P /tmp && \
+    tar -xvzf /tmp/OpenJDK11U-*.tar.gz -C /usr/lib && mv /usr/lib/jdk-* /usr/lib/jdk && \
     export PATH="$PATH:/usr/lib/jdk/bin" && \
     export JAVA_HOME="/usr/lib/jdk" && \
     java -version && \
